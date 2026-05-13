@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-iconse'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import React, { useState } from 'react'
 import { movieApi } from '../constants/axios'
 import { userRequests } from '../constants/requests'
@@ -50,7 +50,7 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={(e) => authentication(e)}>
+    <>
       <label className='email' aria-required>Email</label>
       <input type="text" className='email' onChange={(e) => setEmail(e.target.value)}></input>
       <label className='password' aria-required>Password</label>
@@ -62,11 +62,11 @@ const LoginForm = () => {
           ) : <FontAwesomeIcon icon={faEyeSlash} className='customIcon' />}
         </span>
       </span>
-      <button className='submit' onClick={(e) => authentication(e)}></button>
+      <button className='submit' onClick={(e) => authentication(e)}>submit</button>
       <span style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
         {message}
       </span>
-    </form>
+    </>
   )
 }
 
