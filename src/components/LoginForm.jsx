@@ -1,0 +1,73 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-iconse'
+import React, { useState } from 'react'
+import { movieApi } from '../constants/axios'
+import { userRequests } from '../constants/requests'
+import { useAppStatContext } from '../hooks/useAppStateContext'
+import { useNavigate } from 'react-router-dom'
+
+const LoginForm = () => {
+
+  const navigate = useNavigate()
+  const { dispatch } = useAppStatContext()
+
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [message, setMessage] = useState("")
+  const [showPass, setShowPass] = useState(false)
+
+  const authentication = (event) => {
+    event.preventDefault()
+
+    if (!email || !password) {
+      setMessage("Please fill all required fields")
+    } else {
+      // MAKE AN API CALL
+      movieApi.post(userRequests.login, {
+        email,
+        password
+      }).then((response) => {
+        console.log(response)
+        dispatch({
+          type: "Login",
+          payload: {
+            token: response.data.token,
+            email,
+            username: response.data.username
+          }
+        })
+        navigate("/home")
+      }).catch((error) => {
+        setMessage(error.response.data.message)
+      })
+    }
+  }
+
+  const togglePassword = (event) => {
+    event.preventDefault()
+
+    setShowPass(!showPass)
+  }
+
+  return (
+    <form onSubmit={(e) => authentication(e)}>
+      <label className='email' aria-required>Email</label>
+      <input type="text" className='email' onChange={(e) => setEmail(e.target.value)}></input>
+      <label className='password' aria-required>Password</label>
+      <input type={showPass ? 'text' : 'password'} onChange={(e) => setPassword(e.target.value)}></input>
+      <span onClick={(e) => togglePassword(e)} style={{ cursor: "pointer" }}>
+        <span>
+          {showPass ? (
+            <FontAwesomeIcon icon={faEye} className='customIcon' />
+          ) : <FontAwesomeIcon icon={faEyeSlash} className='customIcon' />}
+        </span>
+      </span>
+      <button className='submit' onClick={(e) => authentication(e)}></button>
+      <span style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+        {message}
+      </span>
+    </form>
+  )
+}
+
+export default LoginForm
