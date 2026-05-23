@@ -20,8 +20,12 @@ const App = () => {
         <Route element={<PrivateRoute />}>
           <Route path="/movie/:movieId" element={<MovieDetailsPage />} />
         </Route>
+        <Route element={<PrivateRoute />}>
+          <Route path="/dynamic" element={<DynamicFormPage />} />
+        </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      
     </>
   )
 }
