@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
 import PrivateRoute from './routes/PrivateRoute'
 import PublicRoute from './routes/PublicRoute'
+import DynamicFormPage from './pages/DynamicFormPage'
 
 const App = () => {
   return (
