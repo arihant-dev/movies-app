@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import Banner from '../components/Banner'
-import { movieApi } from '../constants/axios'
-import { movieRequests } from '../constants/requests'
 import Row from '../components/Row'
 import SkeletonCard from '../components/SkeletonCard'
+import { useDispatch, useSelector } from 'react-redux'
+import { getMovies, getMoviesData, getMoviesStatus } from '../slices/movieSlice'
 
 const HomePage = () => {
-  const [movies, setMovies] = useState({})
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [loadingBanner, setLoadingBanner] = useState(true);
+
+  const dispatch = useDispatch()
+  const status = useSelector(getMoviesStatus)
+  const movies = useSelector(getMoviesData)
+
 
 
   useEffect(() => {
@@ -23,15 +27,9 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const request = await movieApi.get(movieRequests.fetchAllMovies)
-        setMovies(request.data.movies)
-      } catch (error) {
-        console.log(error)
-      }
+    if (status === 'idle') {
+      dispatch(getMovies())
     }
-    fetchData()
   }, []);
 
   return (
