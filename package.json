@@ -15,6 +15,7 @@
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-fontawesome-svg-icon": "^1.1.2",
+    "react-hook-theme": "^1.2.6",
     "react-loading-skeleton": "^3.5.0",
     "react-router-dom": "^7.15.0",
     "react-scripts": "5.0.1",

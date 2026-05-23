@@ -29,3 +29,7 @@
 .comments {
   flex: 2;
 }
+[data-theme="dark"] {
+  --background: #282c34;
+  --primary: #fff;
+}

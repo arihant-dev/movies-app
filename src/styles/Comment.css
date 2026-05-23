@@ -82,3 +82,7 @@
 .star {
   font-size: 18px;
 }
+[data-theme="dark"] {
+  --background: #282c34;
+  --primary: #fff;
+}

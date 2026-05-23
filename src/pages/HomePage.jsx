@@ -35,7 +35,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className='page' style={{backgroundColor: "#111", overflow: "hidden"}}>
+    <div className='page' style={{backgroundColor: "var(--bg-color)", overflow: "hidden"}}>
       <Navbar />
       {loadingBanner ? (
         <SkeletonCard />

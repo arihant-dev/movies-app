@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useAppStatContext } from '../hooks/useAppStateContext'
 import { useNavigate } from 'react-router-dom'
 import '../styles/Navbar.css'
+import { Toggle } from "react-hook-theme";
+import "react-hook-theme/dist/styles/style.css";
 
 const Navbar = () => {
+  // const { theme, setTheme } = useTheme();
   const { appState, dispatch } = useAppStatContext()
   const navigate = useNavigate()
 
@@ -37,6 +40,9 @@ const Navbar = () => {
 
   return (
     <div className={`nav ${show && "nav_black"}`}>
+      <div className="toggle">
+        <Toggle />
+      </div>
       <img
         className="nav_logo"
         alt="Netflix Logo"

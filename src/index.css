@@ -12,3 +12,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+  --bg-color: #111;
+  --text-color: #fff;
+}
+
+[data-theme="dark"] {
+  --bg-color: #111;
+  --text-color: #fff;
+}
+
+[data-theme="light"] {
+  --bg-color: #fff;
+  --text-color: #000;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease;
+}
