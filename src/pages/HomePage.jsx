@@ -4,9 +4,23 @@ import Banner from '../components/Banner'
 import { movieApi } from '../constants/axios'
 import { movieRequests } from '../constants/requests'
 import Row from '../components/Row'
+import SkeletonCard from '../components/SkeletonCard'
 
 const HomePage = () => {
   const [movies, setMovies] = useState({})
+  const [loadingCategories, setLoadingCategories] = useState(true);
+  const [loadingBanner, setLoadingBanner] = useState(true);
+
+
+  useEffect(() => {
+    setLoadingCategories(true);
+    setLoadingBanner(true);
+    const timer = setTimeout(() => {
+      setLoadingCategories(false);
+      setLoadingBanner(false);
+    }, 450);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,11 +37,19 @@ const HomePage = () => {
   return (
     <div className='page' style={{backgroundColor: "#111", overflow: "hidden"}}>
       <Navbar />
-      <Banner />
+      {loadingBanner ? (
+        <SkeletonCard />
+      ) : (
+        <Banner />
+      )}
 
-      {Object.keys(movies).map((category) => (
-        <Row key={category} title={category} movies={movies[category]}/>
-      ))}
+      {loadingCategories ? (
+        <SkeletonCard />
+      ) : (
+        Object.keys(movies).map((category) => (
+          <Row key={category} title={category} movies={movies[category]}/>
+        ))
+      )}
     </div>
   )
 }

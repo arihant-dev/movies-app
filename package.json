@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
     "@fortawesome/free-solid-svg-icons": "^7.2.0",
     "@fortawesome/react-fontawesome": "^3.3.1",
     "@testing-library/dom": "^10.4.1",
@@ -14,6 +15,7 @@
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-fontawesome-svg-icon": "^1.1.2",
+    "react-loading-skeleton": "^3.5.0",
     "react-router-dom": "^7.15.0",
     "react-scripts": "5.0.1",
     "react-spring": "^10.0.3",
