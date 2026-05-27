@@ -7,4 +7,5 @@ export const userRequests = {
 export const movieRequests = {
   fetchAllMovies: "/movies",
   fetchNetflixOriginals: "/movies?category=Netflix Originals",
+  postMovie: "/movies/add"
 }

@@ -23,6 +23,11 @@ export const getMovies = createAsyncThunk('movies/fetchMovies', async () => {
     return response.data.movies
 })
 
+export const postAMovie = createAsyncThunk('movies/postMovie', async (movieData) => {
+    const response = await movieApi.post(movieRequests.postMovie, movieData)
+    return response.data.message
+})
+
 const moviesSlice = createSlice({
     name: 'movies',
     initialState,
@@ -47,6 +52,25 @@ const moviesSlice = createSlice({
     //         }
 
     //     ),
+    // postMovie: create.asyncThunk(
+        //     async (movieData) => {
+        //         const response = await movieApi.post(movieRequests.postMovie, movieData)
+        //         return response.data.message
+        //     },
+        //     {
+        //         pending: (state) => {
+        //             state.status = 'loading'
+        //         },
+        //         fulfilled: (state, action) => {
+        //             state.status = 'succeeded'
+        //             state.movies.push(action.payload)
+        //         },
+        //         rejected: (state, action) => {
+        //             state.status = 'failed'
+        //             state.error = action.error.message
+        //         }
+        //     }
+        // )
     // }),
     extraReducers: (builder) => {
         builder.addCase(getMovies.pending, (state) => {
@@ -60,6 +84,17 @@ const moviesSlice = createSlice({
             state.status = 'failed'
             state.error = action.error.message
         })
+        builder.addCase(postAMovie.pending, (state) => {
+            state.status = 'loading'
+        })
+        builder.addCase(postAMovie.fulfilled, (state, action) => {
+            state.status = 'succeeded'
+            state.movies.push(action.payload)
+        })
+        builder.addCase(postAMovie.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+        })
     }
 
 })
@@ -70,3 +105,11 @@ export const selectAllMovies = (state) => state.movies.movies
 export const getMoviesStatus = (state) => state.movies.status
 export const getMoviesError = (state) => state.movies.error
 export const getMoviesData = (state) => state.movies.movies
+export const postMovieData = (state) => state.movies.postAMovie
+// use it like const postAMovie = () => {
+  // whatever you want to send
+ /* const data = .........
+  
+  dispatch(postAMovie(data));
+}
+*/
