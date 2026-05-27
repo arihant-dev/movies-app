@@ -4,6 +4,7 @@ import { movieRequests } from '../constants/requests'
 import movieTrailer from 'movie-trailer'
 import '../styles/Banner.css'
 import YouTube from 'react-youtube'
+import { useFetchData } from '../hooks/useFetchData'
 
 const opts = {
   height: "400",
@@ -22,25 +23,19 @@ const Banner = ({ selectedMovie }) => {
   })
   const [trailerUrl, setTrailerUrl] = useState("")
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const request = await movieApi.get(movieRequests.fetchNetflixOriginals)
-        setMovie(
-          request.data.movies[
-          Math.floor(Math.random() * request.data.movies.length)
-          ]
-        )
-      } catch (error) {
-        console.log(error)
-      }
-    }
+  const { data: [randomMovie], loading, error} = useFetchData(movieRequests.fetchNetflixOriginals)
 
-    if (!selectedMovie) {
-      fetchData()
-    }
+  if (error) {
+    return <div className='banner'>Error: {error.message}</div>
+  }
+  
+  if (loading) {
+    return <div className='banner'>Loading...</div>
+  }
 
-  }, [selectedMovie])
+  if (randomMovie && !selectedMovie) {
+    setMovie(randomMovie.movie)
+  }
 
   const truncate = (str, limit) => {
     return str?.length > limit ? str.substr(0, limit - 1) + "..." : str;
