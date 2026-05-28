@@ -36,6 +36,10 @@
     .hdr-r{display:flex;align-items:center;gap:1rem}
     .si{font-family:var(--sans);font-size:.85rem;padding:.4rem .8rem;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--fg);outline:none;width:200px;transition:width .2s,border-color .2s}
     .si:focus{width:260px;border-color:var(--accent)}
+    .search-wrap{position:relative;display:flex;align-items:center}
+    .si-clear{position:absolute;right:8px;background:none;border:none;color:var(--fg2);cursor:pointer;font-size:.85rem;padding:2px 4px;border-radius:3px;display:none;line-height:1}
+    .si-clear:hover{color:var(--fg)}
+    .si:not(:placeholder-shown)~.si-clear{display:block}
     .tb{background:none;border:1px solid var(--border);border-radius:6px;padding:.4rem;cursor:pointer;color:var(--fg2);display:flex;align-items:center}
     .tb:hover{color:var(--fg);border-color:var(--fg)}
 
@@ -127,7 +131,10 @@
   <header class="topbar">
     <a href="#" class="logo"><div class="d"></div><span>React Exam Reference</span></a>
     <div class="hdr-r">
-      <input type="text" class="si" id="sb" placeholder="Search..." oninput="hs()">
+      <div class="search-wrap">
+        <input type="text" class="si" id="sb" placeholder="Search..." oninput="hs()">
+        <button class="si-clear" id="sb-clear" onclick="cs()" title="Clear search">✕</button>
+      </div>
       <button class="tb" onclick="tt()" title="Toggle theme">
         <svg id="ts" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
       </button>
@@ -1306,6 +1313,8 @@ useEffect(() => {
     function ta(b){const i=b.closest('.ai');i.classList.toggle('on');const c=i.querySelector('.ac');c.style.maxHeight=i.classList.contains('on')?c.scrollHeight+'px':'0'}
     function cp(b){const w=b.closest('.cw');const t=w.querySelector('code').innerText;navigator.clipboard.writeText(t).then(()=>{b.innerText='Copied!';setTimeout(()=>b.innerText='Copy',1500)})}
     function hs(){const q=document.getElementById('sb').value.toLowerCase();document.querySelectorAll('.S').forEach(s=>{s.style.display=s.innerText.toLowerCase().includes(q)?'block':'none'})}
+    function cs(){document.getElementById('sb').value='';document.querySelectorAll('.S').forEach(s=>{s.style.display='block'})}
+    document.querySelectorAll('.nl a, .rtoc a').forEach(a=>{a.addEventListener('click',()=>{cs()})});
     window.addEventListener('scroll',()=>{const sp=window.scrollY+100;const ss=document.querySelectorAll('.S');const nl=document.querySelectorAll('.nl li');const tl=document.querySelectorAll('.rtoc a');ss.forEach(s=>{if(s.style.display!=='none'&&sp>=s.offsetTop&&sp<s.offsetTop+s.offsetHeight){const id=s.id;nl.forEach(i=>{const a=i.querySelector('a');if(a&&a.getAttribute('href')==='#'+id){i.classList.add('on')}else{i.classList.remove('on')}});tl.forEach(a=>{if(a.getAttribute('href')==='#'+id){a.style.color='var(--fg)';a.style.fontWeight='600'}else{a.style.color='var(--fg2)';a.style.fontWeight='400'}})}})});
   </script>
 </body>
