@@ -59,7 +59,7 @@ const DynamicFormPage = () => {
         console.log("Form submitted with values:", values);
       };
   return (
-    <DynamicForm formConfig={formConfig} onSubmit={handleSubmit} />
+    <DynamicForm fields={formConfig.fields} onSubmit={handleSubmit} />
   )
 }
 
