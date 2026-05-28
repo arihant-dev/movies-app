@@ -226,7 +226,7 @@ useEffect(() => {
 </div>
 
 <div class="co w">
-<div class="co-t">⚠ Infinite loop trap</div>
+<div class="co-t"> Infinite loop trap</div>
 <div class="co-b">If you call a setter inside useEffect without the correct dependency array, you get an infinite re-render loop. If you see "Too many re-renders", check your useEffect deps.</div>
 </div>
 
@@ -1034,16 +1034,16 @@ dispatch({ type: <span class="s">'Login'</span>, payload: { name: <span class="s
 <p>These are the patterns that trip people up in exams. Know the difference between calling a function and passing a reference.</p>
 
 <div class="cw"><div class="cm"><span class="cf">onClick patterns</span><button class="cc" onclick="cp(this)">Copy</button></div>
-<pre><code><span class="c">// ✅ CORRECT: passing a function reference (no args)</span>
+<pre><code><span class="c">//  CORRECT: passing a function reference (no args)</span>
 &lt;<span class="t">button</span> onClick={handleClick}&gt;Click&lt;/<span class="t">button</span>&gt;
 
-<span class="c">// ✅ CORRECT: passing args via arrow function</span>
+<span class="c">//  CORRECT: passing args via arrow function</span>
 &lt;<span class="t">button</span> onClick={() => handleDelete(movie.id)}&gt;Delete&lt;/<span class="t">button</span>&gt;
 
-<span class="c">// ✅ CORRECT: passing the event object</span>
+<span class="c">//  CORRECT: passing the event object</span>
 &lt;<span class="t">button</span> onClick={(e) => handleClick(e, movie)}&gt;View&lt;/<span class="t">button</span>&gt;
 
-<span class="c">// ❌ WRONG: this CALLS the function immediately on every render</span>
+<span class="c">//  WRONG: this CALLS the function immediately on every render</span>
 &lt;<span class="t">button</span> onClick={handleDelete(movie.id)}&gt;Delete&lt;/<span class="t">button</span>&gt;</code></pre>
 </div>
 
@@ -1199,10 +1199,10 @@ dispatch(fetchFeature());</code></pre></div>
 <div class="ai"><button class="at" onclick="ta(this)">TypeError: Cannot read properties of undefined (reading 'map')<span class="ax">▼</span></button>
 <div class="ac"><div class="ab">
 <p><strong>Cause:</strong> You're calling <code>.map()</code> on something that hasn't loaded yet or is undefined.</p>
-<div class="cw"><pre><code><span class="c">// ❌ Crashes if movies is undefined</span>
+<div class="cw"><pre><code><span class="c">//  Crashes if movies is undefined</span>
 {movies.map(m => ...)}
 
-<span class="c">// ✅ Fix: optional chaining + fallback</span>
+<span class="c">//  Fix: optional chaining + fallback</span>
 {(movies || []).map(m => ...)}
 <span class="c">// or</span>
 {movies?.map(m => ...) || &lt;<span class="t">p</span>&gt;No data&lt;/<span class="t">p</span>&gt;}</code></pre></div>
@@ -1211,43 +1211,43 @@ dispatch(fetchFeature());</code></pre></div>
 <div class="ai"><button class="at" onclick="ta(this)">Error: Too many re-renders<span class="ax">▼</span></button>
 <div class="ac"><div class="ab">
 <p><strong>Cause:</strong> You're calling a state setter during render, not inside an event handler or effect.</p>
-<div class="cw"><pre><code><span class="c">// ❌ WRONG: calls setCount on every render → infinite loop</span>
+<div class="cw"><pre><code><span class="c">//  WRONG: calls setCount on every render → infinite loop</span>
 &lt;<span class="t">button</span> onClick={setCount(count + 1)}&gt;
 
-<span class="c">// ✅ FIX: wrap in arrow function</span>
+<span class="c">//  FIX: wrap in arrow function</span>
 &lt;<span class="t">button</span> onClick={() => setCount(count + 1)}&gt;</code></pre></div>
 </div></div></div>
 
 <div class="ai"><button class="at" onclick="ta(this)">Error: Actions must be plain objects<span class="ax">▼</span></button>
 <div class="ac"><div class="ab">
 <p><strong>Cause:</strong> You're passing the thunk function itself instead of calling it.</p>
-<div class="cw"><pre><code><span class="c">// ❌ WRONG: passing the function reference</span>
+<div class="cw"><pre><code><span class="c">//  WRONG: passing the function reference</span>
 dispatch(getMovies);
 
-<span class="c">// ✅ FIX: call it with parentheses</span>
+<span class="c">//  FIX: call it with parentheses</span>
 dispatch(getMovies());</code></pre></div>
 </div></div></div>
 
 <div class="ai"><button class="at" onclick="ta(this)">Warning: Each child in a list should have a unique "key" prop<span class="ax">▼</span></button>
 <div class="ac"><div class="ab">
 <p><strong>Cause:</strong> Missing <code>key</code> prop on mapped elements. React needs it to track list items.</p>
-<div class="cw"><pre><code><span class="c">// ❌ WRONG</span>
+<div class="cw"><pre><code><span class="c">//  WRONG</span>
 {items.map(item => &lt;<span class="t">li</span>&gt;{item.name}&lt;/<span class="t">li</span>&gt;)}
 
-<span class="c">// ✅ FIX: use a unique identifier, NOT the index if list can change</span>
+<span class="c">//  FIX: use a unique identifier, NOT the index if list can change</span>
 {items.map(item => &lt;<span class="t">li</span> key={item.id}&gt;{item.name}&lt;/<span class="t">li</span>&gt;)}</code></pre></div>
 </div></div></div>
 
 <div class="ai"><button class="at" onclick="ta(this)">Stale state inside useEffect / event handlers<span class="ax">▼</span></button>
 <div class="ac"><div class="ab">
 <p><strong>Cause:</strong> Closures capture the state value at the time the function was created.</p>
-<div class="cw"><pre><code><span class="c">// ❌ Problem: count is always 0 inside the interval</span>
+<div class="cw"><pre><code><span class="c">//  Problem: count is always 0 inside the interval</span>
 useEffect(() => {
   <span class="k">const</span> id = setInterval(() => setCount(count + 1), 1000);
   <span class="k">return</span> () => clearInterval(id);
 }, []);
 
-<span class="c">// ✅ Fix: use functional updater form</span>
+<span class="c">//  Fix: use functional updater form</span>
 useEffect(() => {
   <span class="k">const</span> id = setInterval(() => setCount(prev => prev + 1), 1000);
   <span class="k">return</span> () => clearInterval(id);
@@ -1257,13 +1257,13 @@ useEffect(() => {
 <div class="ai"><button class="at" onclick="ta(this)">Cannot update a component while rendering a different component<span class="ax">▼</span></button>
 <div class="ac"><div class="ab">
 <p><strong>Cause:</strong> You're dispatching or setting state during the render phase of a parent/child.</p>
-<div class="cw"><pre><code><span class="c">// ❌ WRONG: dispatch during render</span>
+<div class="cw"><pre><code><span class="c">//  WRONG: dispatch during render</span>
 <span class="k">const</span> MyComponent = () => {
   dispatch(someAction()); <span class="c">// runs on every render!</span>
   <span class="k">return</span> &lt;<span class="t">div</span> /&gt;;
 };
 
-<span class="c">// ✅ FIX: move it into useEffect</span>
+<span class="c">//  FIX: move it into useEffect</span>
 useEffect(() => {
   dispatch(someAction());
 }, []);</code></pre></div>
