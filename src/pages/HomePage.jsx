@@ -4,7 +4,7 @@ import Banner from '../components/Banner'
 import Row from '../components/Row'
 import SkeletonCard from '../components/SkeletonCard'
 import { useDispatch, useSelector } from 'react-redux'
-import { getMovies, getMoviesData, getMoviesStatus, postMovieData } from '../slices/movieSlice'
+import { getMovies, getMoviesData, getMoviesStatus, postAMovie } from '../slices/movieSlice'
 
 const HomePage = () => {
   const [loadingCategories, setLoadingCategories] = useState(true);
@@ -35,7 +35,7 @@ const HomePage = () => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const movieData = Object.fromEntries(formData.entries());
-    dispatch(postMovieData(movieData));
+    dispatch(postAMovie(movieData));
   }
 
   return (

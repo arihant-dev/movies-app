@@ -25,7 +25,8 @@ export const getMovies = createAsyncThunk('movies/fetchMovies', async () => {
 
 export const postAMovie = createAsyncThunk('movies/postMovie', async (movieData) => {
     const response = await movieApi.post(movieRequests.postMovie, movieData)
-    return response.data.message
+    // If the server returns the saved movie, use it; otherwise, default to the input movieData.
+    return response.data.movie || movieData
 })
 
 const moviesSlice = createSlice({
@@ -75,6 +76,7 @@ const moviesSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getMovies.pending, (state) => {
             state.status = 'loading'
+            state.error = null
         })
         builder.addCase(getMovies.fulfilled, (state, action) => {
             state.status = 'succeeded'
@@ -86,10 +88,17 @@ const moviesSlice = createSlice({
         })
         builder.addCase(postAMovie.pending, (state) => {
             state.status = 'loading'
+            state.error = null
         })
         builder.addCase(postAMovie.fulfilled, (state, action) => {
             state.status = 'succeeded'
-            state.movies.push(action.payload)
+            const movie = action.payload
+            const category = movie.type || 'Trending'
+            if (state.movies[category]) {
+                state.movies[category].push(movie)
+            } else {
+                state.movies[category] = [movie]
+            }
         })
         builder.addCase(postAMovie.rejected, (state, action) => {
             state.status = 'failed'
