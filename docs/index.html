@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React & Redux Toolkit - Exam Preparation Guide</title>
+  <!-- Google Fonts: Outfit & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* Theme color tokens - Sleek Premium Dark Mode */
+      --bg-main: #0b0f19;
+      --bg-sidebar: #111827;
+      --bg-card: #1f2937;
+      --bg-card-hover: #374151;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --primary: #8b5cf6;
+      --primary-hover: #a78bfa;
+      --primary-glow: rgba(139, 92, 246, 0.15);
+      --secondary: #10b981;
+      --secondary-glow: rgba(16, 185, 129, 0.15);
+      --accent: #f59e0b;
+      --danger: #ef4444;
+      --border-color: #374151;
+      --code-bg: #030712;
+      
+      --transition-speed: 0.3s;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-glow: 0 0 20px rgba(139, 92, 246, 0.3);
+    }
+
+    /* Light Mode overrides */
+    body.light-theme {
+      --bg-main: #f8fafc;
+      --bg-sidebar: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.1);
+      --secondary: #059669;
+      --secondary-glow: rgba(5, 150, 105, 0.1);
+      --border-color: #e2e8f0;
+      --code-bg: #1e293b;
+      --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      display: flex;
+      min-height: 100vh;
+      line-height: 1.6;
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+      overflow-x: hidden;
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-main);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+
+    /* SIDEBAR */
+    aside {
+      width: 280px;
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+      z-index: 100;
+      transition: background-color var(--transition-speed), border-color var(--transition-speed);
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.25rem;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .brand-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--text-main), var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .search-container {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      width: 16px;
+      height: 16px;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+    }
+
+    .nav-item a:hover {
+      background-color: var(--bg-card);
+      color: var(--text-main);
+    }
+
+    .nav-item.active a {
+      background-color: var(--primary);
+      color: #fff;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .theme-toggle-btn {
+      background: none;
+      border: 1px solid var(--border-color);
+      padding: 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color var(--transition-speed), color var(--transition-speed);
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* MAIN CONTENT */
+    main {
+      margin-left: 280px;
+      padding: 2.5rem;
+      flex: 1;
+      max-width: 1000px;
+    }
+
+    header {
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.025em;
+      background: linear-gradient(135deg, var(--text-main), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-desc {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    .section-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow-md);
+      transition: transform var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+    }
+
+    .section-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-glow);
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .icon-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background-color: var(--primary-glow);
+      color: var(--primary);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+    }
+
+    /* TABS */
+    .tabs-container {
+      margin-bottom: 1.5rem;
+    }
+
+    .tabs-headers {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .tab-header {
+      background: none;
+      border: none;
+      padding: 0.5rem 1rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 500;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+    }
+
+    .tab-header:hover {
+      background-color: var(--bg-card-hover);
+      color: var(--text-main);
+    }
+
+    .tab-header.active {
+      background-color: var(--primary-glow);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    /* CODE BLOCKS */
+    .code-container {
+      position: relative;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    .code-header {
+      background-color: var(--bg-sidebar);
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .code-title {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .copy-btn {
+      background: none;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background-color var(--transition-speed), border-color var(--transition-speed), color var(--transition-speed);
+    }
+
+    .copy-btn:hover {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    pre {
+      background-color: var(--code-bg);
+      padding: 1.25rem;
+      overflow-x: auto;
+      margin: 0;
+    }
+
+    code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: #a78bfa;
+    }
+
+    /* SYNTAX HIGHLIGHTING (Basic Simulation) */
+    .keyword { color: #f43f5e; font-weight: 500; }
+    .function { color: #38bdf8; }
+    .string { color: #34d399; }
+    .comment { color: #6b7280; font-style: italic; }
+    .variable { color: #f8fafc; }
+    .type { color: #fbbf24; }
+
+    /* DIAGRAMS */
+    .diagram-container {
+      display: flex;
+      justify-content: center;
+      margin: 1.5rem 0;
+      padding: 1.5rem;
+      background-color: var(--code-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .diagram-svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* NOTES & HIGHLIGHTS */
+    .alert-box {
+      border-left: 4px solid var(--primary);
+      background-color: var(--primary-glow);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 1.5rem;
+    }
+
+    .alert-box.warning {
+      border-left-color: var(--accent);
+      background-color: rgba(245, 158, 11, 0.08);
+    }
+
+    .alert-box.danger {
+      border-left-color: var(--danger);
+      background-color: rgba(239, 68, 68, 0.08);
+    }
+
+    .alert-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+    }
+
+    .alert-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0;
+    }
+
+    /* EXAM CHEAT SHEET ACCORDION */
+    .accordion-item {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+      background-color: var(--bg-sidebar);
+    }
+
+    .accordion-header {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 1rem 1.25rem;
+      text-align: left;
+      font-family: inherit;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color var(--transition-speed);
+    }
+
+    .accordion-header:hover {
+      background-color: var(--bg-card);
+    }
+
+    .accordion-icon {
+      transition: transform var(--transition-speed);
+    }
+
+    .accordion-item.active .accordion-icon {
+      transform: rotate(180deg);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition-speed) ease-out;
+      background-color: var(--bg-main);
+    }
+
+    .accordion-body {
+      padding: 1.25rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* GRID LAYOUTS */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .feature-list {
+      list-style-type: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-list li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .feature-list li::before {
+      content: "✦";
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* PURE CSS SKELETON */
+    .skeleton-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.5rem;
+      background-color: var(--bg-main);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .shimmer-block {
+      background: linear-gradient(90deg, var(--bg-card) 25%, var(--border-color) 50%, var(--bg-card) 75%);
+      background-size: 200% 100%;
+      animation: shimmerAnimation 1.5s infinite linear;
+      border-radius: 4px;
+    }
+
+    @keyframes shimmerAnimation {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Responsiveness */
+    @media (max-width: 900px) {
+      aside {
+        transform: translateX(-100%);
+      }
+      aside.open {
+        transform: translateX(0);
+      }
+      main {
+        margin-left: 0;
+        padding: 1.5rem;
+      }
+      .mobile-header {
+        display: flex !important;
+      }
+    }
+
+    .mobile-header {
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: var(--bg-sidebar);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .menu-toggle-btn {
+      background: none;
+      border: 1px solid var(--border-color);
+      padding: 0.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--text-main);
+    }
+
+    .meta-tag {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      background-color: var(--primary-glow);
+      color: var(--primary);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MOBILE HEADER -->
+  <div class="mobile-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <div class="brand-logo">R</div>
+      <div class="brand-title" style="font-size: 1rem;">React Study Hub</div>
+    </div>
+    <button class="menu-toggle-btn" onclick="toggleSidebar()">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </button>
+  </div>
+
+  <!-- SIDEBAR NAVIGATION -->
+  <aside id="sidebar">
+    <div class="brand-section">
+      <div class="brand-logo">R</div>
+      <div class="brand-title">React Study Hub</div>
+    </div>
+
+    <!-- Live Search -->
+    <div class="search-container">
+      <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+      <input type="text" class="search-input" id="search-box" placeholder="Search topics or code..." oninput="handleSearch()">
+    </div>
+
+    <!-- Navigation List -->
+    <ul class="nav-list">
+      <li class="nav-item active"><a href="#intro" onclick="closeSidebar()"><span class="icon-badge" style="width:20px;height:20px;font-size:0.7rem;">1</span> React Architecture</a></li>
+      <li class="nav-item"><a href="#redux-toolkit" onclick="closeSidebar()"><span class="icon-badge" style="width:20px;height:20px;font-size:0.7rem;">2</span> Redux Toolkit</a></li>
+      <li class="nav-item"><a href="#custom-hooks" onclick="closeSidebar()"><span class="icon-badge" style="width:20px;height:20px;font-size:0.7rem;">3</span> Custom Hooks</a></li>
+      <li class="nav-item"><a href="#dynamic-forms" onclick="closeSidebar()"><span class="icon-badge" style="width:20px;height:20px;font-size:0.7rem;">4</span> Dynamic Forms</a></li>
+      <li class="nav-item"><a href="#skeletons" onclick="closeSidebar()"><span class="icon-badge" style="width:20px;height:20px;font-size:0.7rem;">5</span> Skeleton Loaders</a></li>
+      <li class="nav-item"><a href="#context-api" onclick="closeSidebar()"><span class="icon-badge" style="width:20px;height:20px;font-size:0.7rem;">6</span> Context API</a></li>
+      <li class="nav-item" style="border-top: 1px dashed var(--border-color); padding-top: 0.5rem; margin-top: 0.5rem;">
+        <a href="#cheat-sheet" onclick="closeSidebar()">✨ Exam Cheat Sheet</a>
+      </li>
+    </ul>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+      <span style="font-size: 0.8rem; color: var(--text-muted);">v1.0.0 (Local Storage)</span>
+      <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Light/Dark Theme">
+        <svg id="theme-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <!-- Moon Icon as Default -->
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN DOCUMENT BODY -->
+  <main>
+    <header>
+      <h1>React & Redux Exam Reference</h1>
+      <p class="header-desc">A complete interactive guide mapping your project's custom hooks, dynamic forms, skeletons, and state slices to help you ace your final evaluation.</p>
+    </header>
+
+    <!-- SECTION 1: REACT ARCHITECTURE -->
+    <section id="intro" class="section-card searchable">
+      <h2><span class="icon-badge">1</span> React Architecture</h2>
+      <p>React is built on a <strong>declarative component model</strong>. Understanding how components, properties (props), and state interact is essential for passing the final test.</p>
+      
+      <div class="alert-box">
+        <div class="alert-title">💡 The React Flow Formula</div>
+        <p class="alert-desc">State goes <strong>down</strong> (via props), Actions trigger events that go <strong>up</strong> (calling callbacks). Effects are synchronized side effects that run in response to dependency adjustments.</p>
+      </div>
+
+      <div class="tabs-container">
+        <div class="tabs-headers">
+          <button class="tab-header active" onclick="switchTab(event, 'intro-concept')">Key Concepts</button>
+          <button class="tab-header" onclick="switchTab(event, 'intro-lifecycle')">Component Checklist</button>
+        </div>
+        
+        <div class="tab-content active" id="intro-concept">
+          <div class="grid-2">
+            <div>
+              <h4 style="margin-bottom: 0.5rem; font-weight: 600;">Props vs. State</h4>
+              <p style="font-size: 0.95rem;"><strong>Props</strong> are immutable parameters passed from a parent component down to a child. They behave like function arguments. <strong>State</strong> is a component's local memory that is mutable and triggers a re-render when modified via its setter function.</p>
+            </div>
+            <div>
+              <h4 style="margin-bottom: 0.5rem; font-weight: 600;">Side Effects (`useEffect`)</h4>
+              <p style="font-size: 0.95rem;">Use `useEffect` only for actions that escape the React render loop (fetching data, setting timers, or subscribing to events). Always declare all variables accessed in the effect inside the dependency array to avoid stale values.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="intro-lifecycle">
+          <ul class="feature-list">
+            <li><strong>State initialization:</strong> Declare states using descriptive names, e.g. <code>const [isLoaded, setIsLoaded] = useState(false);</code></li>
+            <li><strong>Conditional render check:</strong> Check for empty/null lists before mapping, e.g. <code>movies?.length === 0 ? &lt;EmptyState /&gt; : movies.map(...)</code>.</li>
+            <li><strong>Resource cleanup:</strong> Return a cleanup function inside <code>useEffect</code> to remove listeners or abort pending fetches.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: REDUX TOOLKIT -->
+    <section id="redux-toolkit" class="section-card searchable">
+      <h2><span class="icon-badge">2</span> Redux Toolkit & Async Thunks</h2>
+      <p>Redux Toolkit (RTK) simplifies global application state. You'll need to define a store, write slice reducers, write async actions (thunks) for HTTP requests, and dispatch them.</p>
+
+      <!-- Redux Flow Diagram (SVG) -->
+      <div class="diagram-container">
+        <svg class="diagram-svg" width="600" height="240" viewBox="0 0 600 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background Grid Lines for Aesthetics -->
+          <rect width="600" height="240" rx="8" fill="#030712"/>
+          <path d="M50 0V240M150 0V240M250 0V240M350 0V240M450 0V240M550 0V240" stroke="#1f2937" stroke-dasharray="2 4"/>
+          <!-- UI Component Node -->
+          <rect x="20" y="90" width="120" height="60" rx="6" fill="#1f2937" stroke="#374151" stroke-width="2"/>
+          <text x="80" y="125" fill="#f3f4f6" font-family="Outfit" font-size="14" font-weight="600" text-anchor="middle">React View</text>
+          
+          <!-- Dispatch / Action -->
+          <path d="M140 120H200" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="170" y="110" fill="#a78bfa" font-family="Fira Code" font-size="10" text-anchor="middle">dispatch()</text>
+
+          <!-- Async Thunk API Request -->
+          <rect x="210" y="90" width="120" height="60" rx="6" fill="rgba(16, 185, 129, 0.1)" stroke="#10b981" stroke-width="2"/>
+          <text x="270" y="125" fill="#10b981" font-family="Outfit" font-size="14" font-weight="600" text-anchor="middle">Async Thunk</text>
+          
+          <!-- State Update Arrow -->
+          <path d="M330 120H390" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="360" y="110" fill="#34d399" font-family="Fira Code" font-size="10" text-anchor="middle">fulfilled</text>
+
+          <!-- Reducers / Slice -->
+          <rect x="400" y="90" width="180" height="60" rx="6" fill="#1f2937" stroke="#374151" stroke-width="2"/>
+          <text x="490" y="120" fill="#f3f4f6" font-family="Outfit" font-size="14" font-weight="600" text-anchor="middle">Slice & Reducer</text>
+          <text x="490" y="138" fill="#9ca3af" font-family="Fira Code" font-size="9" text-anchor="middle">Updates Immutable State</text>
+
+          <!-- Cycle Back to UI (useSelector) -->
+          <path d="M490 90V40H80V90" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+          <text x="285" y="32" fill="#a78bfa" font-family="Fira Code" font-size="11" text-anchor="middle">useSelector(state => ...)</text>
+
+          <!-- SVG Marker Definitions -->
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="currentColor"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="alert-box warning">
+        <div class="alert-title">⚠️ Common Pitfall: State Mutation</div>
+        <p class="alert-desc">Your original codebase attempted <code>state.movies.push(action.payload)</code> inside the <code>postAMovie.fulfilled</code> case. Because <code>state.movies</code> is an object containing categorized lists, you must index into the target category list first: <code>state.movies[category].push(movie)</code>.</p>
+      </div>
+
+      <div class="tabs-container">
+        <div class="tabs-headers">
+          <button class="tab-header active" onclick="switchTab(event, 'rtk-slice')">1. The Slice Blueprint</button>
+          <button class="tab-header" onclick="switchTab(event, 'rtk-store')">2. Store Setup</button>
+          <button class="tab-header" onclick="switchTab(event, 'rtk-comp')">3. Usage in Page</button>
+        </div>
+
+        <div class="tab-content active" id="rtk-slice">
+          <p>Here is how to structure your <code>movieSlice.js</code> containing a GET request and a POST request:</p>
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-title">src/slices/movieSlice.js</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code><span class="keyword">import</span> { createAsyncThunk, createSlice } <span class="keyword">from</span> <span class="string">'@reduxjs/toolkit'</span>;
+<span class="keyword">import</span> { movieApi } <span class="keyword">from</span> <span class="string">'../constants/axios'</span>;
+<span class="keyword">import</span> { movieRequests } <span class="keyword">from</span> <span class="string">'../constants/requests'</span>;
+
+<span class="comment">// 1. Initial State matching your backend API's response layout</span>
+<span class="keyword">const</span> initialState = {
+  movies: {
+    <span class="string">"Trending"</span>: [],
+    <span class="string">"Comedy"</span>: []
+  },
+  status: <span class="string">'idle'</span>, <span class="comment">// 'idle' | 'loading' | 'succeeded' | 'failed'</span>
+  error: <span class="keyword">null</span>
+};
+
+<span class="comment">// 2. Async Thunk for GET request</span>
+<span class="keyword">export const</span> getMovies = createAsyncThunk(<span class="string">'movies/fetchMovies'</span>, <span class="keyword">async</span> () => {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> movieApi.get(movieRequests.fetchAllMovies);
+  <span class="keyword">return</span> response.data.movies; 
+});
+
+<span class="comment">// 3. Async Thunk for POST request (Adds a movie)</span>
+<span class="keyword">export const</span> postAMovie = createAsyncThunk(<span class="string">'movies/postMovie'</span>, <span class="keyword">async</span> (movieData) => {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> movieApi.post(movieRequests.postMovie, movieData);
+  <span class="keyword">return</span> response.data.movie || movieData; 
+});
+
+<span class="comment">// 4. Creating the slice</span>
+<span class="keyword">const</span> moviesSlice = createSlice({
+  name: <span class="string">'movies'</span>,
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      <span class="comment">// Fetch Movies Cases</span>
+      .addCase(getMovies.pending, (state) => {
+        state.status = <span class="string">'loading'</span>;
+      })
+      .addCase(getMovies.fulfilled, (state, action) => {
+        state.status = <span class="string">'succeeded'</span>;
+        state.movies = action.payload;
+      })
+      .addCase(getMovies.rejected, (state, action) => {
+        state.status = <span class="string">'failed'</span>;
+        state.error = action.error.message;
+      })
+      <span class="comment">// Post Movie Cases - FIXED to append into correct categorized array</span>
+      .addCase(postAMovie.fulfilled, (state, action) => {
+        state.status = <span class="string">'succeeded'</span>;
+        <span class="keyword">const</span> movie = action.payload;
+        <span class="keyword">const</span> category = movie.type || <span class="string">'Trending'</span>;
+        <span class="keyword">if</span> (state.movies[category]) {
+          state.movies[category].push(movie);
+        } <span class="keyword">else</span> {
+          state.movies[category] = [movie];
+        }
+      });
+  }
+});
+
+<span class="keyword">export default</span> moviesSlice.reducer;
+
+<span class="comment">// Selectors to fetch values in your components</span>
+<span class="keyword">export const</span> selectAllMovies = (state) => state.movies.movies;
+<span class="keyword">export const</span> getMoviesStatus = (state) => state.movies.status;
+<span class="keyword">export const</span> getMoviesError = (state) => state.movies.error;</code></pre>
+          </div>
+        </div>
+
+        <div class="tab-content" id="rtk-store">
+          <p>The store ties the slice reducers together and exports the store. Mount it at the root of the app.</p>
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-title">src/store/store.js</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code><span class="keyword">import</span> { configureStore } <span class="keyword">from</span> <span class="string">'@reduxjs/toolkit'</span>;
+<span class="keyword">import</span> moviesReducer <span class="keyword">from</span> <span class="string">'../slices/movieSlice'</span>;
+
+<span class="keyword">const</span> store = configureStore({
+  reducer: {
+    movies: moviesReducer <span class="comment">// 'movies' corresponds to state.movies in useSelector</span>
+  }
+});
+
+<span class="keyword">export default</span> store;</code></pre>
+          </div>
+          
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-title">src/index.js (Mounting Store)</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom/client'</span>;
+<span class="keyword">import</span> { Provider } <span class="keyword">from</span> <span class="string">'react-redux'</span>;
+<span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./store/store'</span>;
+<span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span>;
+
+<span class="keyword">const</span> root = ReactDOM.createRoot(document.getElementById(<span class="string">'root'</span>));
+root.render(
+  <span class="comment">// Wrap App component in Provider and pass configured store</span>
+  &lt;<span class="keyword">Provider</span> store={store}&gt;
+    &lt;<span class="keyword">App</span> /&gt;
+  &lt;/<span class="keyword">Provider</span>&gt;
+);</code></pre>
+          </div>
+        </div>
+
+        <div class="tab-content" id="rtk-comp">
+          <p>Connect your page or component to dispatch and read from the Redux store:</p>
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-title">src/pages/HomePage.jsx</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code><span class="keyword">import</span> React, { useEffect } <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { useDispatch, useSelector } <span class="keyword">from</span> <span class="string">'react-redux'</span>;
+<span class="keyword">import</span> { getMovies, selectAllMovies, getMoviesStatus, postAMovie } <span class="keyword">from</span> <span class="string">'../slices/movieSlice'</span>;
+
+<span class="keyword">const</span> HomePage = () => {
+  <span class="keyword">const</span> dispatch = useDispatch();
+  <span class="keyword">const</span> movies = useSelector(selectAllMovies);
+  <span class="keyword">const</span> status = useSelector(getMoviesStatus);
+
+  <span class="comment">// 1. Fetch data on mount if state is idle</span>
+  useEffect(() => {
+    <span class="keyword">if</span> (status === <span class="string">'idle'</span>) {
+      dispatch(getMovies());
+    }
+  }, [status, dispatch]);
+
+  <span class="comment">// 2. Handle POST request on form submission</span>
+  <span class="keyword">const</span> handleSubmit = (event) => {
+    event.preventDefault();
+    <span class="keyword">const</span> formData = <span class="keyword">new</span> FormData(event.target);
+    <span class="keyword">const</span> movieData = Object.fromEntries(formData.entries());
+    
+    <span class="comment">// Dispatch the async thunk</span>
+    dispatch(postAMovie(movieData));
+  };
+
+  <span class="keyword">return</span> (
+    &lt;div&gt;
+      &lt;form onSubmit={handleSubmit}&gt;
+        &lt;input type=<span class="string">"text"</span> name=<span class="string">"title"</span> placeholder=<span class="string">"Title"</span> required /&gt;
+        &lt;input type=<span class="string">"text"</span> name=<span class="string">"type"</span> placeholder=<span class="string">"Category"</span> required /&gt;
+        &lt;button type=<span class="string">"submit"</span>&gt;Add Movie&lt;/button&gt;
+      &lt;/form&gt;
+      
+      {status === <span class="string">'loading'</span> && &lt;p&gt;Loading movies...&lt;/p&gt;}
+      
+      {status === <span class="string">'succeeded'</span> && Object.keys(movies).map(category => (
+        &lt;div key={category}&gt;
+          &lt;h3&gt;{category}&lt;/h3&gt;
+          {movies[category].map(m => &lt;p key={m.movie_id}&gt;{m.title}&lt;/p&gt;)}
+        &lt;/div>
+      ))}
+    &lt;/div&gt;
+  );
+};</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: CUSTOM HOOKS -->
+    <section id="custom-hooks" class="section-card searchable">
+      <h2><span class="icon-badge">3</span> Custom Hooks</h2>
+      <p>Custom hooks let you extract component logic into reusable functions. A highly common assignment asks you to write a <code>useFetchData</code> hook with standard properties.</p>
+      
+      <div class="alert-box">
+        <div class="alert-title">🎯 The Custom Hook Contract</div>
+        <p class="alert-desc">Custom hooks must start with the prefix <code>use</code>. They must return state variables (data, loading, error) and hook dependencies (like <code>url</code>) to allow React to track reactivity.</p>
+      </div>
+
+      <div class="tabs-container">
+        <div class="tabs-headers">
+          <button class="tab-header active" onclick="switchTab(event, 'hook-file')">The Hook Code</button>
+          <button class="tab-header" onclick="switchTab(event, 'hook-use')">Component Usage</button>
+        </div>
+
+        <div class="tab-content active" id="hook-file">
+          <p>This hook accepts a endpoint/URL string and returns the API state:</p>
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-title">src/hooks/useFetchData.js</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code><span class="keyword">import</span> { useEffect, useState } <span class="keyword">from</span> <span class="string">"react"</span>;
+<span class="keyword">import</span> { movieApi } <span class="keyword">from</span> <span class="string">"../constants/axios"</span>;
+
+<span class="keyword">export const</span> useFetchData = (url) => {
+  <span class="keyword">const</span> [data, setData] = useState(<span class="keyword">null</span>);
+  <span class="keyword">const</span> [loading, setLoading] = useState(<span class="keyword">false</span>);
+  <span class="keyword">const</span> [error, setError] = useState(<span class="string">""</span>);
+
+  useEffect(() => {
+    <span class="comment">// Use abort controller to cancel cleanup fetches if component unmounts</span>
+    <span class="keyword">const</span> controller = <span class="keyword">new</span> AbortController();
+
+    <span class="keyword">const</span> fetchData = <span class="keyword">async</span> () => {
+      setLoading(<span class="keyword">true</span>);
+      setError(<span class="string">""</span>);
+      <span class="keyword">try</span> {
+        <span class="keyword">const</span> response = <span class="keyword">await</span> movieApi.get(url, {
+          signal: controller.signal
+        });
+        setData(response.data);
+      } <span class="keyword">catch</span> (err) {
+        <span class="keyword">if</span> (err.name !== <span class="string">'CanceledError'</span>) {
+          setError(err.message || <span class="string">"Something went wrong"</span>);
+        }
+      } <span class="keyword">finally</span> {
+        setLoading(<span class="keyword">false</span>);
+      }
+    };
+
+    <span class="keyword">if</span> (url) {
+      fetchData();
+    }
+
+    <span class="keyword">return</span> () => {
+      controller.abort(); <span class="comment">// clean up network connection</span>
+    };
+  }, [url]); <span class="comment">// Triggers only when URL changes</span>
+
+  <span class="keyword">return</span> { data, loading, error };
+};</code></pre>
+          </div>
+        </div>
+
+        <div class="tab-content" id="hook-use">
+          <p>To invoke the custom hook inside any React component:</p>
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-title">src/components/MyComponent.jsx</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { useFetchData } <span class="keyword">from</span> <span class="string">'../hooks/useFetchData'</span>;
+
+<span class="keyword">const</span> MovieRow = () => {
+  <span class="comment">// Exact syntax required by Assignment 2</span>
+  <span class="keyword">const</span> { data, loading, error } = useFetchData(<span class="string">"/movies?category=Netflix Originals"</span>);
+
+  <span class="keyword">if</span> (loading) <span class="keyword">return</span> &lt;div&gt;Loading Netflix Originals...&lt;/div&gt;;
+  <span class="keyword">if</span> (error) <span class="keyword">return</span> &lt;div&gt;Error: {error}&lt;/div&gt;;
+
+  <span class="keyword">return</span> (
+    &lt;div className=<span class="string">"movies-row"</span>&gt;
+      {data?.movies?.map((movie) => (
+        &lt;img key={movie.movie_id} src={movie.poster} alt={movie.title} /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+};</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: DYNAMIC FORMS -->
+    <section id="dynamic-forms" class="section-card searchable">
+      <h2><span class="icon-badge">4</span> Dynamic Form Generation</h2>
+      <p>Dynamic forms render field configurations from API responses or static arrays. They are extremely common for validating frontend flexibility in exams.</p>
+
+      <div class="alert-box">
+        <div class="alert-title">⚙️ Prop Alignment Fix</div>
+        <p class="alert-desc">Your <code>DynamicFormPage.jsx</code> passed <code>formConfig={formConfig}</code>, but the <code>DynamicForm</code> component destructured <code>fields</code> directly. We fixed it to pass <code>fields={formConfig.fields}</code> to avoid crashes.</p>
+      </div>
+
+      <div class="tabs-container">
+        <div class="tabs-headers">
+          <button class="tab-header active" onclick="switchTab(event, 'form-formik')">Option A: Formik + Yup</button>
+          <button class="tab-header" onclick="switchTab(event, 'form-vanilla')">Option B: Plain React (Highly Recommended)</button>
+        </div>
+
+        <div class="tab-content active" id="form-formik">
+          <p>Using third-party libraries is quick, but harder to customize. Here is the implementation using Formik & Yup:</p>
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-title">src/components/DynamicForm.jsx</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { Formik, Form, Field, ErrorMessage } <span class="keyword">from</span> <span class="string">'formik'</span>;
+<span class="keyword">import</span> * <span class="keyword">as</span> Yup <span class="keyword">from</span> <span class="string">'yup'</span>;
+
+<span class="keyword">const</span> DynamicForm = ({ fields, onSubmit }) => {
+  <span class="comment">// 1. Generate dynamic Yup schemas</span>
+  <span class="keyword">const</span> validationSchema = Yup.object().shape(
+    fields.reduce((acc, field) => {
+      <span class="keyword">if</span> (field.type === <span class="string">'email'</span>) {
+        acc[field.name] = Yup.string().email(<span class="string">'Invalid email'</span>).required(<span class="string">'Required'</span>);
+      } <span class="keyword">else</span> <span class="keyword">if</span> (field.type === <span class="string">'password'</span>) {
+        acc[field.name] = Yup.string().min(8, <span class="string">'Min 8 characters'</span>).required(<span class="string">'Required'</span>);
+      } <span class="keyword">else</span> {
+        acc[field.name] = Yup.string().required(<span class="string">'Required'</span>);
+      }
+      <span class="keyword">return</span> acc;
+    }, {})
+  );
+
+  <span class="comment">// 2. Generate initial empty states</span>
+  <span class="keyword">const</span> initialValues = fields.reduce((acc, field) => {
+    acc[field.name] = <span class="string">''</span>;
+    <span class="keyword">return</span> acc;
+  }, {});
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">Formik</span> initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}&gt;
+      {() => (
+        &lt;<span class="keyword">Form</span>&gt;
+          {fields.map((field) => (
+            &lt;div key={field.name} style={{ marginBottom: <span class="string">'15px'</span> }}&gt;
+              &lt;label&gt;{field.label}&lt;/label&gt;
+              &lt;<span class="keyword">Field</span> type={field.type} name={field.name} /&gt;
+              &lt;<span class="keyword">ErrorMessage</span> name={field.name} component=<span class="string">"div"</span> style={{ color: <span class="string">'red'</span> }} /&gt;
+            &lt;/div&gt;
+          ))}
+          &lt;button type=<span class="string">"submit"</span>&gt;Submit&lt;/button&gt;
+        &lt;/<span class="keyword">Form</span>&gt;
+      )}
+    &lt;/<span class="keyword">Formik</span>&gt;
+  );
+};</code></pre>
+          </div>
+        </div>
+
+        <div class="tab-content" id="form-vanilla">
+          <p>If Formik is not allowed on the exam, you can write dynamic forms using standard React hooks:</p>
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-title">Plain React Dynamic Form Component</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code><span class="keyword">import</span> React, { useState } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">const</span> DynamicFormVanilla = ({ fields, onSubmit }) => {
+  <span class="comment">// Initialize form values dynamically</span>
+  <span class="keyword">const</span> [values, setValues] = useState(() => 
+    fields.reduce((acc, field) => ({ ...acc, [field.name]: <span class="string">''</span> }), {})
+  );
+  <span class="keyword">const</span> [errors, setErrors] = useState({});
+
+  <span class="comment">// Handle dynamic field changes</span>
+  <span class="keyword">const</span> handleChange = (name, val) => {
+    setValues(prev => ({ ...prev, [name]: val }));
+  };
+
+  <span class="comment">// Perform simple frontend validations</span>
+  <span class="keyword">const</span> handleFormSubmit = (e) => {
+    e.preventDefault();
+    <span class="keyword">const</span> tempErrors = {};
+    fields.forEach(field => {
+      <span class="keyword">if</span> (!values[field.name]) {
+        tempErrors[field.name] = <span class="string">`${field.label} is required`</span>;
+      }
+    });
+    
+    <span class="keyword">if</span> (Object.keys(tempErrors).length === 0) {
+      onSubmit(values);
+    } <span class="keyword">else</span> {
+      setErrors(tempErrors);
+    }
+  };
+
+  <span class="keyword">return</span> (
+    &lt;form onSubmit={handleFormSubmit}&gt;
+      {fields.map((field) => (
+        &lt;div key={field.name} style={{ marginBottom: <span class="string">'12px'</span> }}&gt;
+          &lt;label style={{ display: <span class="string">'block'</span> }}&gt;{field.label}&lt;/label&gt;
+          
+          {<span class="comment">/* Render appropriate field type */</span>}
+          {field.type === <span class="string">'textarea'</span> ? (
+            &lt;textarea 
+              value={values[field.name]} 
+              onChange={(e) => handleChange(field.name, e.target.value)}
+            /&gt;
+          ) : (
+            &lt;input 
+              type={field.type} 
+              value={values[field.name]} 
+              onChange={(e) => handleChange(field.name, e.target.value)}
+            /&gt;
+          )}
+          
+          {errors[field.name] && &lt;span style={{ color: <span class="string">'red'</span> }}&gt;{errors[field.name]}&lt;/span&gt;}
+        &lt;/div&gt;
+      ))}
+      &lt;button type=<span class="string">"submit"</span>&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+};</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: SKELETON LOADERS -->
+    <section id="skeletons" class="section-card searchable">
+      <h2><span class="icon-badge">5</span> Skeleton Loaders</h2>
+      <p>Skeleton loaders offer a smooth interface by rendering blank shapes that pulse while content is being fetched. This improves user experience compared to default progress bars.</p>
+
+      <div class="tabs-container">
+        <div class="tabs-headers">
+          <button class="tab-header active" onclick="switchTab(event, 'skeleton-css')">Pure CSS Shimmer</button>
+          <button class="tab-header" onclick="switchTab(event, 'skeleton-lib')">Using Libraries</button>
+        </div>
+
+        <div class="tab-content active" id="skeleton-css">
+          <p>Many exams restrict external packages. Implementing a basic shimmer skeleton in pure CSS is straightforward:</p>
+          <div class="skeleton-preview">
+            <div class="shimmer-block" style="height: 30px; width: 40%;"></div>
+            <div style="display: flex; gap: 10px;">
+              <div class="shimmer-block" style="height: 100px; width: 80px;"></div>
+              <div class="shimmer-block" style="height: 100px; width: 80px;"></div>
+              <div class="shimmer-block" style="height: 100px; width: 80px;"></div>
+            </div>
+          </div>
+          
+          <div class="grid-2" style="margin-top: 1.5rem;">
+            <div>
+              <div class="code-container">
+                <div class="code-header"><span class="code-title">CSS styles</span></div>
+                <pre><code><span class="comment">/* The Shimmer Shifting Animation */</span>
+<span class="variable">.shimmer-block</span> {
+  <span class="keyword">background</span>: linear-gradient(
+    90deg, 
+    #1f2937 25%, 
+    #374151 50%, 
+    #1f2937 75%
+  );
+  <span class="keyword">background-size</span>: 200% 100%;
+  <span class="keyword">animation</span>: shimmer 1.5s infinite linear;
+  <span class="keyword">border-radius</span>: 6px;
+}
+
+<span class="keyword">@keyframes</span> <span class="function">shimmer</span> {
+  0% { <span class="keyword">background-position</span>: 200% 0; }
+  100% { <span class="keyword">background-position</span>: -200% 0; }
+}</code></pre>
+              </div>
+            </div>
+            <div>
+              <div class="code-container">
+                <div class="code-header"><span class="code-title">JSX component</span></div>
+                <pre><code><span class="keyword">const</span> CSSCardSkeleton = () => (
+  &lt;div className=<span class="string">"skeleton-card-row"</span>&gt;
+    &lt;div className=<span class="string">"shimmer-block"</span> style={{ height: <span class="string">'20px'</span>, width: <span class="string">'120px'</span> }}/&gt;
+    &lt;div className=<span class="string">"shimmer-block"</span> style={{ height: <span class="string">'150px'</span>, width: <span class="string">'100px'</span> }}/&gt;
+  &lt;/div&gt;
+);</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="skeleton-lib">
+          <p>Using <code>react-loading-skeleton</code> (as implemented in your <code>SkeletonCard.jsx</code> file):</p>
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-title">src/components/SkeletonCard.jsx</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">"react"</span>;
+<span class="keyword">import</span> Skeleton <span class="keyword">from</span> <span class="string">"react-loading-skeleton"</span>;
+<span class="keyword">import</span> <span class="string">"react-loading-skeleton/dist/skeleton.css"</span>;
+
+<span class="keyword">const</span> SkeletonCard = () => {
+  <span class="keyword">return</span> (
+    &lt;div style={{ padding: <span class="string">"20px"</span> }}&gt;
+      {<span class="comment">/* Title Skeleton */</span>}
+      &lt;<span class="keyword">Skeleton</span> height={25} width=<span class="string">"150px"</span> style={{ marginBottom: <span class="string">"15px"</span> }} /&gt;
+      
+      {<span class="comment">/* Row items Skeletons */</span>}
+      &lt;div style={{ display: <span class="string">"flex"</span>, gap: <span class="string">"10px"</span> }}&gt;
+        {[...Array(6)].map((_, i) => (
+          &lt;<span class="keyword">Skeleton</span> key={i} height={150} width={100} style={{ borderRadius: <span class="string">"5px"</span> }} /&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: CONTEXT API -->
+    <section id="context-api" class="section-card searchable">
+      <h2><span class="icon-badge">6</span> React Context API</h2>
+      <p>The Context API is React's native solution for sharing global state without "prop drilling". Used alongside <code>useReducer</code>, it behaves similarly to Redux.</p>
+
+      <div class="grid-2">
+        <div>
+          <h4 style="margin-bottom: 0.5rem; font-weight: 600;">The Provider Structure</h4>
+          <p style="font-size: 0.95rem;">You need <code>createContext()</code> to declare the context, and a <code>Provider</code> component wrapping children that passes down the current state and action dispatcher.</p>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 0.5rem; font-weight: 600;">The Reducer Logic</h4>
+          <p style="font-size: 0.95rem;">A reducer function <code>(state, action) => newState</code> evaluates action types and yields copies of updated state models, matching your project's Auth layout.</p>
+        </div>
+      </div>
+
+      <div class="tabs-container">
+        <div class="tabs-headers">
+          <button class="tab-header active" onclick="switchTab(event, 'ctx-reducer')">1. The Reducer</button>
+          <button class="tab-header" onclick="switchTab(event, 'ctx-prov')">2. Provider & Hook</button>
+        </div>
+
+        <div class="tab-content active" id="ctx-reducer">
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-title">src/context/AppStateReducer.js</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code><span class="keyword">export const</span> AppStateReducer = (state, action) => {
+  <span class="keyword">switch</span> (action.type) {
+    <span class="keyword">case</span> <span class="string">"Login"</span>: {
+      localStorage.setItem(<span class="string">"user"</span>, JSON.stringify({ ...action.payload, isAuthenticated: <span class="keyword">true</span> }));
+      <span class="keyword">return</span> {
+        ...state,
+        isAuthenticated: <span class="keyword">true</span>,
+        user: action.payload
+      };
+    }
+    <span class="keyword">case</span> <span class="string">"Logout"</span>: {
+      localStorage.removeItem(<span class="string">"user"</span>);
+      <span class="keyword">return</span> {
+        isAuthenticated: <span class="keyword">false</span>,
+        user: <span class="keyword">null</span>
+      };
+    }
+    <span class="keyword">default</span>:
+      <span class="keyword">return</span> state;
+  }
+};</code></pre>
+          </div>
+        </div>
+
+        <div class="tab-content" id="ctx-prov">
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-title">src/context/AppStateProvider.jsx</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code><span class="keyword">import</span> React, { createContext, useReducer } <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { AppStateReducer } <span class="keyword">from</span> <span class="string">'./AppStateReducer'</span>;
+
+<span class="keyword">const</span> INITIAL_STATE = {
+  isAuthenticated: localStorage.getItem(<span class="string">"user"</span>) ? <span class="keyword">true</span> : <span class="keyword">false</span>,
+  user: JSON.parse(localStorage.getItem(<span class="string">"user"</span>))
+};
+
+<span class="comment">// 1. Create the Context</span>
+<span class="keyword">export const</span> AppStateContext = createContext(INITIAL_STATE);
+
+<span class="comment">// 2. Create the Provider</span>
+<span class="keyword">const</span> AppStateProvider = ({ children }) => {
+  <span class="keyword">const</span> [state, dispatch] = useReducer(AppStateReducer, INITIAL_STATE);
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">AppStateContext.Provider</span> value={{ appState: state, dispatch }}&gt;
+      {children}
+    &lt;/<span class="keyword">AppStateContext.Provider</span>&gt;
+  );
+};
+
+<span class="keyword">export default</span> AppStateProvider;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: EXAM CHEAT SHEET -->
+    <section id="cheat-sheet" class="section-card searchable">
+      <h2>✨ Exam Cheat Sheet</h2>
+      <p>Quick formulas, templates, and patterns for standard tasks that you can copy and customize during your final evaluation.</p>
+
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          1. React List Filter Pattern
+          <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <p>Filtering items based on an input field value in local state:</p>
+            <div class="code-container">
+              <div class="code-header">
+                <span class="code-title">Filter Code Blueprint</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><code><span class="keyword">const</span> [searchTerm, setSearchTerm] = useState(<span class="string">""</span>);
+
+<span class="comment">// Derive filtered list during render</span>
+<span class="keyword">const</span> filteredMovies = movies.filter(movie => 
+  movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+<span class="keyword">return</span> (
+  &lt;div&gt;
+    &lt;input 
+      type=<span class="string">"text"</span> 
+      placeholder=<span class="string">"Search..."</span> 
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+    /&gt;
+    {filteredMovies.map(movie => &lt;p key={movie.id}&gt;{movie.title}&lt;/p&gt;)}
+  &lt;/div&gt;
+);</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          2. Standard POST request (No Redux)
+          <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <p>How to dispatch or trigger a POST request with loading indicators using native axios inside components:</p>
+            <div class="code-container">
+              <div class="code-header">
+                <span class="code-title">Direct Component POST</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><code><span class="keyword">const</span> [isSubmitting, setIsSubmitting] = useState(<span class="keyword">false</span>);
+<span class="keyword">const</span> [error, setError] = useState(<span class="keyword">null</span>);
+
+<span class="keyword">const</span> handleAddData = <span class="keyword">async</span> (payload) => {
+  setIsSubmitting(<span class="keyword">true</span>);
+  setError(<span class="keyword">null</span>);
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> res = <span class="keyword">await</span> axios.post(<span class="string">"http://localhost:8080/movies/add"</span>, payload, {
+      headers: { Authorization: <span class="string">`Bearer token`</span> }
+    });
+    alert(<span class="string">"Successfully added!"</span>);
+  } <span class="keyword">catch</span> (err) {
+    setError(err.response?.data?.message || err.message);
+  } <span class="keyword">finally</span> {
+    setIsSubmitting(<span class="keyword">false</span>);
+  }
+};</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          3. Dynamic Input Component Mapping
+          <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <p>A reference table explaining how to handle different input elements in dynamic JSON forms:</p>
+            <div class="code-container">
+              <div class="code-header">
+                <span class="code-title">Input render mapping</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><code>{field.type === <span class="string">'select'</span> ? (
+  &lt;select value={values[field.name]} onChange={e => handleChange(field.name, e.target.value)}&gt;
+    {field.options.map(opt => &lt;option key={opt} value={opt}&gt;{opt}&lt;/option&gt;)}
+  &lt;/select&gt;
+) : field.type === <span class="string">'checkbox'</span> ? (
+  &lt;label&gt;
+    &lt;input 
+      type=<span class="string">"checkbox"</span> 
+      checked={!!values[field.name]} 
+      onChange={e => handleChange(field.name, e.target.checked)} 
+    /&gt;
+    {field.label}
+  &lt;/label&gt;
+) : (
+  &lt;input type={field.type} value={values[field.name]} onChange={e => handleChange(field.name, e.target.value)} /&gt;
+)}</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+          4. Common Exam Errors & Fixes
+          <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <ul class="feature-list" style="margin-bottom:0;">
+              <li><strong>Error: "Cannot read property 'map' of undefined"</strong>
+                <br><span style="font-size:0.85rem;color:var(--text-muted);">Ensure initial state lists are arrays (e.g. <code>[]</code>) or use optional chaining: <code>items?.map(...)</code>.</span>
+              </li>
+              <li><strong>Error: "Too many re-renders. React limits the number of renders..."</strong>
+                <br><span style="font-size:0.85rem;color:var(--text-muted);">You're calling a setter function directly inside the render cycle. Wrap callback executions: <code>onClick={() => handleAction()}</code> instead of <code>onClick={handleAction()}</code>.</span>
+              </li>
+              <li><strong>Error: "Actions must be plain objects. Use custom middleware for async actions."</strong>
+                <br><span style="font-size:0.85rem;color:var(--text-muted);">Ensure you dispatch the execution of the async thunk: <code>dispatch(getMovies())</code> (including parentheses) instead of <code>dispatch(getMovies)</code>.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Theme toggling functionality
+    function toggleTheme() {
+      const body = document.body;
+      const themeIcon = document.getElementById('theme-icon');
+      body.classList.toggle('light-theme');
+      
+      const isLight = body.classList.contains('light-theme');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      
+      // Update SVG icon inside the button
+      if (isLight) {
+        themeIcon.innerHTML = `
+          <!-- Sun Icon -->
+          <circle cx="12" cy="12" r="5" stroke-width="2"></circle>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+        `;
+      } else {
+        themeIcon.innerHTML = `
+          <!-- Moon Icon -->
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        `;
+      }
+    }
+
+    // Load persisted theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      toggleTheme();
+    }
+
+    // Sidebar Toggling for Mobile
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+    
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('open');
+    }
+
+    // Tabs switching
+    function switchTab(event, tabId) {
+      const parent = event.currentTarget.closest('.tabs-container');
+      
+      // Deactivate other tabs
+      parent.querySelectorAll('.tab-header').forEach(btn => btn.classList.remove('active'));
+      parent.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      // Activate target tab
+      event.currentTarget.classList.add('active');
+      parent.querySelector(`#${tabId}`).classList.add('active');
+    }
+
+    // Code copying
+    function copyCode(button) {
+      const codeContainer = button.closest('.code-container');
+      const codeText = codeContainer.querySelector('code').innerText;
+      
+      navigator.clipboard.writeText(codeText).then(() => {
+        const originalText = button.innerText;
+        button.innerText = 'Copied!';
+        button.style.backgroundColor = 'var(--secondary)';
+        button.style.borderColor = 'var(--secondary)';
+        
+        setTimeout(() => {
+          button.innerText = originalText;
+          button.style.backgroundColor = '';
+          button.style.borderColor = '';
+        }, 1500);
+      });
+    }
+
+    // Accordion
+    function toggleAccordion(button) {
+      const item = button.closest('.accordion-item');
+      item.classList.toggle('active');
+      
+      const content = item.querySelector('.accordion-content');
+      if (item.classList.contains('active')) {
+        content.style.maxHeight = content.scrollHeight + 'px';
+      } else {
+        content.style.maxHeight = '0';
+      }
+    }
+
+    // Live search filter
+    function handleSearch() {
+      const searchVal = document.getElementById('search-box').value.toLowerCase();
+      const sections = document.querySelectorAll('.searchable');
+
+      sections.forEach(section => {
+        const text = section.innerText.toLowerCase();
+        if (text.includes(searchVal)) {
+          section.style.display = 'block';
+        } else {
+          section.style.display = 'none';
+        }
+      });
+    }
+
+    // Highlight Active Link in Sidebar on Scroll
+    window.addEventListener('scroll', () => {
+      const scrollPos = window.scrollY + 100;
+      const sections = document.querySelectorAll('.searchable');
+      const navLinks = document.querySelectorAll('.nav-item');
+
+      sections.forEach(section => {
+        if (section.style.display !== 'none' && 
+            scrollPos >= section.offsetTop && 
+            scrollPos < (section.offsetTop + section.offsetHeight)) {
+          const id = section.getAttribute('id');
+          navLinks.forEach(item => {
+            const link = item.querySelector('a');
+            if (link.getAttribute('href') === `#${id}`) {
+              item.classList.add('active');
+            } else {
+              item.classList.remove('active');
+            }
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
